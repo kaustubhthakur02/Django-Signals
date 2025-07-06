@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>📚 Library Books</h1>
+
+{% for book in books %}
+<div class="book">
+    <h3>{{ book.title }}</h3>
+    <p><strong>Author:</strong> {{ book.author.name }}</p>
+    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p><strong>Pages:</strong> {{ book.pages }}</p>
+    <p><strong>Available Copies:</strong> {{ book.available_copies }}</p>
+    
+    {% if book.bookstatistics %}
+        <p><strong>Times Borrowed:</strong> {{ book.bookstatistics.total_borrows }}</p>
+        <p><strong>Currently Borrowed:</strong> {{ book.bookstatistics.current_borrowed }}</p>
+    {% endif %}
+    
+    {% if user.is_authenticated and book.available_copies > 0 %}
+        <a href="{% url 'borrow_book' book.id %}" class="btn">📖 Borrow Book</a>
+    {% elif book.available_copies == 0 %}
+        <span style="color: red;">❌ Not Available</span>
+    {% endif %}
+</div>
+{% empty %}
+<p>No books available in the library.</p>
+{% endfor %}
+{% endblock %}

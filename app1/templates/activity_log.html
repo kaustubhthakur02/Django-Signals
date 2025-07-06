@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>📋 Recent Library Activity</h1>
+
+<div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+    {% for activity in activities %}
+    <div style="border-bottom: 1px solid #ddd; padding: 10px 0;">
+        <strong>{{ activity.get_action_display }}</strong>
+        <span style="color: #666; font-size: 0.9em; float: right;">
+            {{ activity.timestamp|date:"M d, Y H:i" }}
+        </span>
+        <br>
+        <span>{{ activity.description }}</span>
+        {% if activity.user %}
+            <br><small>User: {{ activity.user.username }}</small>
+        {% endif %}
+    </div>
+    {% empty %}
+    <p>No activity logged yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

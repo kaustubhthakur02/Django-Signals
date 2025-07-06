@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>📖 My Borrowed Books</h1>
+
+{% for borrow in borrowed_books %}
+<div class="book">
+    <h3>{{ borrow.book.title }}</h3>
+    <p><strong>Author:</strong> {{ borrow.book.author.name }}</p>
+    <p><strong>Borrowed on:</strong> {{ borrow.borrowed_at|date:"M d, Y" }}</p>
+    <p><strong>Due date:</strong> {{ borrow.due_date|date:"M d, Y" }}</p>
+    <p><strong>Status:</strong> {{ borrow.get_status_display }}</p>
+    
+    {% if borrow.status == 'borrowed' %}
+        <a href="{% url 'return_book' borrow.id %}" class="btn">📥 Return Book</a>
+    {% endif %}
+</div>
+{% empty %}
+<p>You haven't borrowed any books yet.</p>
+<a href="{% url 'book_list' %}" class="btn">📚 Browse Books</a>
+{% endfor %}
+{% endblock %}

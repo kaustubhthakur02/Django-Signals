@@ -7,7 +7,7 @@ from .signals import book_returned
 
 def book_list(request):
     books = Book.objects.all().select_related('author', 'bookstatistics')
-    return render(request, 'library/book_list.html', {'books': books})
+    return render(request, 'book_list.html', {'books': books})
 
 @login_required
 def borrow_book(request, book_id):
@@ -63,8 +63,8 @@ def my_books(request):
         user=request.user,
         status='borrowed'
     ).select_related('book')
-    return render(request, 'library/my_books.html', {'borrowed_books': borrowed_books})
+    return render(request, 'my_books.html', {'borrowed_books': borrowed_books})
 
 def activity_log(request):
     activities = ActivityLog.objects.all().order_by('-timestamp')[:50]
-    return render(request, 'library/activity_log.html', {'activities': activities})
+    return render(request, 'activity_log.html', {'activities': activities})
